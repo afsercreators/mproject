@@ -3,53 +3,16 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 const app = express();
+
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
+const taskRoute = require("./Route/taskRoute");
+
+app.use("/api/task", taskRoute);
+
 app.get("/", (req, res) => {
   res.send("<h1>We are Running & continue</h1>");
-});
-
-const TaskModel = require("./TaskModel");
-
-app.post("/api/create", async (req, res) => {
-  try {
-    const { taskTitle } = req.body;
-
-    if (!taskTitle) {
-      return res.json({ message: "Task title is required." });
-    }
-
-    const taskObj = new TaskModel({
-      taskTitle,
-    });
-
-    await taskObj.save();
-
-    res.json({
-      message: "Created Successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "An error occurred while creating the task.",
-      error: error.message,
-    });
-  }
-});
-
-app.get("/api/", async (req, res) => {
-  try {
-    const taskObj = await TaskModel.find();
-
-    res.json(taskObj);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "An error occurred while creating the task.",
-      error: error.message,
-    });
-  }
 });
 
 // Server code
