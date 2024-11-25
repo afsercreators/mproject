@@ -7,9 +7,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-const taskRoute = require("./Route/taskRoute");
+const usersRoute = require("./Route/usersRoute");
 
-app.use("/api/task", taskRoute);
+app.use("/api/users", usersRoute);
 
 app.get("/", (req, res) => {
   res.send("<h1>We are Running & continue</h1>");
@@ -19,7 +19,9 @@ app.get("/", (req, res) => {
 app.listen(8000, () => {
   console.log("App is Running");
   mongoose
-    .connect("mongodb+srv://class01:class01@cluster0.mbfkc.mongodb.net/class01")
+    .connect(
+      "mongodb+srv://planethours:mv02mgrcvygGkQz5@cluster0.60uhiv6.mongodb.net/studnetProject"
+    )
     .then(() => {
       console.log("Database Connected");
     })
