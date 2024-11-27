@@ -13,9 +13,9 @@ const {
 // // api
 route.get("/", getUser);
 route.post("/create", CreateUser);
-route.post("/login", login);
 route.patch("/:id", updateUser);
 route.delete("/:id", deletUser);
+route.post("/login", login);
 
 // export
 module.exports = route;

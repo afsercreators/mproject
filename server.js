@@ -1,11 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
-
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 const usersRoute = require("./Route/usersRoute");
 

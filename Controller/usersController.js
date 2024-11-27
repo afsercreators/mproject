@@ -1,4 +1,6 @@
 const Userlist = require("../Model/UserModel");
+var jwt = require("jsonwebtoken");
+
 const bcrypt = require("bcryptjs");
 
 const CreateUser = async (req, res) => {
@@ -88,9 +90,12 @@ async function updateUser(req, res) {
 }
 
 async function login(req, res) {
-  const { email, password } = req.params;
+  const { email, password } = req.body;
+
+  console.log(123, email, password);
 
   try {
+    // 1st condition
     if (!email || !password) {
       return res
         .status(400)
@@ -98,19 +103,23 @@ async function login(req, res) {
     }
 
     const user = await Userlist.findOne({ email });
+    // 2nd
     if (!user) {
       return res.status(401).json({
         message: "This Email does not have any account !!",
       });
     }
-
+    //3rd condi
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: "Incorrect Password" });
+      return res.status(402).json({ message: "Incorrect Password" });
     }
-
+    const token = jwt.sign({ email }, "123", {
+      expiresIn: "1d",
+    });
     res.status(200).json({
-      updatedUsers,
+      message: "Login successful",
+      token: token,
     });
   } catch (error) {
     console.error(error);
