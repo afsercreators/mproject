@@ -9,7 +9,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 const usersRoute = require("./Route/usersRoute");
+const tokenVerify = require("./Middleware/verifyToken");
 
+app.get("/api/verify", tokenVerify);
 app.use("/api/users", usersRoute);
 
 app.get("/", (req, res) => {
