@@ -9,10 +9,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 const usersRoute = require("./Route/usersRoute");
+const studentRoute = require("./Route/studentRoute");
 const tokenVerify = require("./Middleware/verifyToken");
 
 app.get("/api/verify", tokenVerify);
 app.use("/api/users", usersRoute);
+app.use("/api/student", studentRoute);
 
 app.get("/", (req, res) => {
   res.send("<h1>We are Running & continue</h1>");
