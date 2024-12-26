@@ -2,6 +2,8 @@ const Student = require("../Model/StudentsModel");
 
 const CreateStudent = async (req, res) => {
   try {
+    const { data } = req.body;
+
     const {
       name,
       fatherName,
@@ -10,22 +12,18 @@ const CreateStudent = async (req, res) => {
       className,
       presentAddress,
       permanentsAddress,
-    } = req.body;
+    } = data;
 
-    console.log(
-      name,
-      fatherName,
-      motherName,
-      dateofBirth,
-      className,
-      presentAddress,
-      permanentsAddress
-    );
-
+    // Checking required fields
     if (!name || !fatherName || !motherName || !dateofBirth) {
-      return res.status(404).json({ message: "Give me Requred FIled" });
+      return res
+        .status(400)
+        .json({ message: "Please provide the required fields" });
     }
 
+    console.log(123);
+
+    // Create a new student object
     const studentsObj = new Student({
       name,
       fatherName,
@@ -36,16 +34,17 @@ const CreateStudent = async (req, res) => {
       permanentsAddress,
     });
 
+    // Save the student to the database
     await studentsObj.save();
 
     res.json({
-      message: "Created Successfully",
+      message: "Student created successfully",
       studentsObj,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "An error occurred while creating the users.",
+      message: "An error occurred while creating the student.",
       error: error.message,
     });
   }
